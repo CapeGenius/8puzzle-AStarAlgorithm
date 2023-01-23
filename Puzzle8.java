@@ -1,6 +1,5 @@
 /*
 Rohan Bendapudi - 1/21/23
-I suffered. I cried. But I pulled through and did it. 
  */
 
 import java.util.ArrayList;
@@ -24,11 +23,20 @@ public class AStarTwo
     state[2][1] = 5;
     state[2][2] = 6;
 
-//    System.out.print(calculateAnotherManhattanDistance(state));
+    //System.out.print(calculateAnotherManhattanDistance(state));
     AStarTree solutionTree = new AStarTree(state);
-    solutionTree.initializeTree();
+    
+    if (solutionTree.root.isSolvable())//checks to see if the solution is solvable 
+    {
+      solutionTree.initializeTree();
+    }
+    else
+    {
+      System.out.println("is not solvable");
+    }
+    
 
-//    System.out.print("The total manhattan distance is " + calculateManhattanDistance(state));
+    //System.out.print("The total manhattan distance is " + calculateManhattanDistance(state));
   }
 }
 
@@ -87,8 +95,29 @@ class AStarTree
       objCandidates = selectedState.generateNodes();
       trueCandidates = optimizeCandidates(objCandidates);
       leavesList.addAll(trueCandidates);
-      leavesList = root.sortNodes(leavesList);//sorts all the leaves to find the cheapest path
+      leavesList = root.sortNodes(leavesList);//sorts all the leaves to find the cheapest path/ 
 
+      /*if (leavesList.isEmpty()==true)
+      {
+        leavesList.addAll(trueCandidates);
+      }
+      else
+      {
+        //System.out.println("yes");
+        for (int i = 0; i < trueCandidates.size(); i++)
+        {
+          for (int j = 0; j < leavesList.size(); j++)
+          {
+
+            if (trueCandidates.get(i).fValue < leavesList.get(j).fValue)
+            {
+              leavesList.add(j, trueCandidates.get(i));
+              j = leavesList.size();
+            }
+          }
+        }
+      }*/
+      
 
       //System.out.println(leavesList);
       //chooses the first node as the selected state
@@ -221,7 +250,6 @@ class TreeNode
     // System.out.println("This is the current node");
     // System.out.println(this.calculateManhattanDistance(state));
     ArrayList<TreeNode> objCandidates = new ArrayList<>();
-    TreeNode bestNode;
 
     int leftColumn = currentColumn - 1;    // sets up possible movements for if statements
     int rightColumn = currentColumn + 1;
